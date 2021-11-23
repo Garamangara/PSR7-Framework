@@ -12,5 +12,9 @@
       "Framework\\": "src/Framework/",
       "Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "server": "php -S 0.0.0.0:8083 -t pub pub/index.php",
+    "tests": "vendor/bin/phpunit --colors=always"
   }
 }
