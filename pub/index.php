@@ -1,7 +1,7 @@
 <?php
 //use Framework\Http\Request;
-
-require __DIR__ . '/../src/Framework/Http/Request.php';
+chdir(dirname(__DIR__));
+require 'src/Framework/Http/Request.php';
 /**
  * Чтобы функция была более удобочитаемой,
  * лучше все данные передавать в нее через аргументы
