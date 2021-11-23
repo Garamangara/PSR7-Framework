@@ -8,6 +8,8 @@ require 'vendor/autoload.php';
 use Framework\Http\Request;
 
 $request = new Request($_GET, $_POST);
+$request->withQueryParams($_GET);
+$request->withParsedBody($_POST);
 
 $name = $request->getQueryParams()['name'] ?? 'Guest';
 header('X-Developer: Kyrylo');
