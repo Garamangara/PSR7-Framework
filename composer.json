@@ -4,11 +4,13 @@
   },
   "require": {
     "php": ">=7.3.0",
+    "phpunit/phpunit": "^9.5",
     "roave/security-advisories": "dev-master"
   },
   "autoload": {
     "psr-4": {
-      "Framework\\": "src/Framework/"
+      "Framework\\": "src/Framework/",
+      "Tests\\": "tests/"
     }
   }
 }
