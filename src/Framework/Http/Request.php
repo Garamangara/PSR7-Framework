@@ -7,28 +7,42 @@ namespace Framework\Http;
 
 class Request
 {
-    private $queryParams = [];
+    private $queryParams;
 
     private $parsedBody;
+
+    public function __construct(
+        array $queryParams = [],
+              $parsedBody = null
+    ) {
+        $this->queryParams = $queryParams;
+        $this->parsedBody = $parsedBody;
+    }
 
     public function getQueryParams(): array
     {
         return $this->queryParams;
     }
 
-    public function withQueryParams(array $query): array
+    public function withQueryParams(array $query): self
     {
-        $this->queryParams = $query;
+        $new = clone $this;
+        // имеем доступ к приватным свойствам не из обьекта $this,
+        // потому что находимся внутри класса, у обьекта которого обращаемся к приватным свойствам
+        $new->queryParams = $query;
+        return $new;
     }
 
-    public function getParsedBody(): array
+    public function getParsedBody()
     {
         return $this->parsedBody;
     }
 
-    public function withParsedBody($data): array
+    public function withParsedBody($data): self
     {
-        $this->queryParams = $data;
+        $new = clone $this;
+        $new->parsedBody = $data;
+        return $new;
     }
 
     public function getBody()
