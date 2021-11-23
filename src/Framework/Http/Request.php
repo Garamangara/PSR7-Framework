@@ -3,6 +3,8 @@
  * Request
  */
 
+namespace Framework\Http;
+
 class Request
 {
     public function getQueryParams(): array
@@ -10,18 +12,13 @@ class Request
         return $_GET;
     }
 
-    public function getCookies(): array
+    public function getParsedBody(): array
     {
-        return $_COOKIE;
+        return $_POST;
     }
 
-    public function getSession(): array
+    public function getBody()
     {
-        return $_SESSION;
-    }
-
-    public function getServer(): array
-    {
-        return $_SERVER;
+        return file_get_contents('php://input');
     }
 }
