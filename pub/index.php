@@ -7,6 +7,7 @@ require 'vendor/autoload.php';
 use Framework\Http\ResponseSender;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 ### Initialization
 
@@ -20,8 +21,8 @@ $response = (new HtmlResponse("Hello, $name!"))
     ->withHeader('X-Developer', 'Kyrylo');
 
 ### Sending
-$sender = new ResponseSender();
-$sender->send($response);
+$sender = new SapiEmitter();
+$sender->emit($response);
 
 
 
