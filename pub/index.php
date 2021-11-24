@@ -5,11 +5,10 @@ chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 //require __DIR__ . '/../vendor/autoload.php';
 
-use Framework\Http\Request;
+use Framework\Http\RequestFactory;
 
-$request = (new Request())
-    ->withQueryParams($_GET)
-    ->withParsedBody($_POST);
+//смотрите описание в реализации метода
+$request = RequestFactory::fromGlobals();
 
 $name = $request->getQueryParams()['name'] ?? 'Guest';
 header('X-Developer: Kyrylo');
