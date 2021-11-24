@@ -6,7 +6,7 @@
 
 namespace Framework\Http;
 
-class Response
+class Response implements ServerResponseInterface
 {
     private $headers = [];
     private $body;
