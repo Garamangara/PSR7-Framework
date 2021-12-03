@@ -16,9 +16,11 @@ $request = ServerRequestFactory::fromGlobals();
 ### Action
 
 $name = $request->getQueryParams()['name'] ?? 'Guest';
+$response = new HtmlResponse("Hello, $name!");
 
-$response = (new HtmlResponse("Hello, $name!"))
-    ->withHeader('X-Developer', 'Kyrylo');
+### Postprocessing
+
+$response = $response->withHeader('X-Developer', 'Kyrylo')
 
 ### Sending
 $sender = new SapiEmitter();
