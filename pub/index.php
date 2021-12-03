@@ -9,20 +9,24 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
+use Zend\Diactoros\Response\JsonResponse;
+
 ### Initialization
 
 $request = ServerRequestFactory::fromGlobals();
 
-### Preprocessing
-
-if (preg_match('#json#i', $request->getHeader('Content-Type'))) {
-    $request = $request->withParsedBody(jsont_decode($request->getBody()->getContents()));
-}
-
 ### Action
 
-$name = $request->getQueryParams()['name'] ?? 'Guest';
-$response = new HtmlResponse("Hello, $name!");
+$path = $request->getUri()->getPath();
+
+if ($path === '/') {
+    $name = $request->getQueryParams()['name'] ?? 'Guest';
+    $response = new HtmlResponse("Hello, $name!");
+} elseif ($path === '/about') {
+    $response = new HtmlResponse("I am a simple site!");
+} else {
+    $response = new JsonResponse(['error' => 'Undefined page'], 404);
+}
 
 ### Postprocessing
 
