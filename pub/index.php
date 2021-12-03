@@ -13,6 +13,12 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $request = ServerRequestFactory::fromGlobals();
 
+### Preprocessing
+
+if (preg_match('#json#i', $request->getHeader('Content-Type'))) {
+    $request = $request->withParsedBody(jsont_decode($request->getBody()->getContents()));
+}
+
 ### Action
 
 $name = $request->getQueryParams()['name'] ?? 'Guest';
@@ -20,7 +26,7 @@ $response = new HtmlResponse("Hello, $name!");
 
 ### Postprocessing
 
-$response = $response->withHeader('X-Developer', 'Kyrylo')
+$response = $response->withHeader('X-Developer', 'Kyrylo');
 
 ### Sending
 $sender = new SapiEmitter();
