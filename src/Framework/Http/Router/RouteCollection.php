@@ -2,23 +2,29 @@
 
 namespace Framework\Http\Router;
 
+use Framework\Http\Router\Route;
+
 class RouteCollection
 {
     private $routes = [];
 
-    public function get($name, $pattern, $handler, array $tokens = [])
+    public function get($name, $pattern, $handler, array $tokens = []): void
     {
-        $this->routes[] = [
-            'name' => $name,
-            'pattern' => $pattern,
-            'handler' => $handler,
-            'methods' => ['GET'],
-            'tokens' => $tokens,
-        ];
+        $this->routes[] = new Route($name, $pattern, $handler, ['GET'], $tokens = []);
+    }
+
+    public function any($name, $pattern, $handler, array $tokens = []): void
+    {
+        $this->routes[] = new Route($name, $pattern, $handler, [], $tokens = []);
+    }
+
+    public function post($name, $pattern, $handler, array $tokens = []): void
+    {
+        $this->routes[] = new Route($name, $pattern, $handler, ['POST'], $tokens = []);
     }
 
     /**
-     * @return array
+     * @return Route[]
      */
     public function getRoutes(): array
     {
