@@ -18,12 +18,35 @@ $request = ServerRequestFactory::fromGlobals();
 ### Action
 
 $path = $request->getUri()->getPath();
+$action = null;
 
 if ($path === '/') {
-    $name = $request->getQueryParams()['name'] ?? 'Guest';
-    $response = new HtmlResponse("Hello, $name!");
+    /**
+     * Анонимная функция, чтобы работать только с данными, переданными в аргументах функции
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request) {
+        $name = $request->getQueryParams()['name'] ?? 'Guest';
+        return new HtmlResponse("Hello, $name!");
+    };
+
 } elseif ($path === '/about') {
-    $response = new HtmlResponse("I am a simple site!");
+    /**
+     * Анонимная функция, чтобы работать только с данными, переданными в аргументах функции
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request) {
+        return new HtmlResponse("I am a simple site!");
+    };
+
+}
+
+if ($action) {
+    $response = $action($request);
 } else {
     $response = new JsonResponse(['error' => 'Undefined page'], 404);
 }
