@@ -54,11 +54,11 @@ if ($path === '/') {
     $id = $matches['id'];
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param $id - Изза этого параметра, сигнатура этой функции $action не похожа на другие функции $action.
-     * От этого мы уже не сможем создать для, казалось бы, функций с одинаковым предназначением единый интерфейс.
      * @return JsonResponse
+     *
+     * Параметр $id убрали, но функция всеравно отличается от других функций $action
      */
-    $action = function (\Psr\Http\Message\ServerRequestInterface $request, $id = null) {
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request) use ($id) {
         if ($id > 2) {
             return new JsonResponse(['error' => 'Undefined page'], 404);
         }
