@@ -42,7 +42,28 @@ if ($path === '/') {
     $action = function (\Psr\Http\Message\ServerRequestInterface $request) {
         return new HtmlResponse("I am a simple site!");
     };
+} elseif ($path === '/blog') {
 
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request) {
+        return new JsonResponse([
+            ['id' => 2, 'title' => 'The second post'],
+            ['id' => 1, 'title' => 'The first post'],
+        ]);
+    };
+} elseif (preg_match('#^/blog/(?P<id>\d+)$#i', $path, $matches)) {
+    $id = $matches['id'];
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param $id - Изза этого параметра, сигнатура этой функции $action не похожа на другие функции $action.
+     * От этого мы уже не сможем создать для, казалось бы, функций с одинаковым предназначением единый интерфейс.
+     * @return JsonResponse
+     */
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request, $id = null) {
+        if ($id > 2) {
+            return new JsonResponse(['error' => 'Undefined page'], 404);
+        }
+        return new JsonResponse(['id' => $id, 'title' => 'Post #' . $id]);
+    };
 }
 
 if ($action) {
