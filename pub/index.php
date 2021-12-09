@@ -51,14 +51,14 @@ if ($path === '/') {
         ]);
     };
 } elseif (preg_match('#^/blog/(?P<id>\d+)$#i', $path, $matches)) {
-    $id = $matches['id'];
+
+    $request = $request->withAttribute('id', $matches['id']);
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return JsonResponse
-     *
-     * Параметр $id убрали, но функция всеравно отличается от других функций $action
      */
-    $action = function (\Psr\Http\Message\ServerRequestInterface $request) use ($id) {
+    $action = function (\Psr\Http\Message\ServerRequestInterface $request) {
+        $id = $request->getAttribute('id');
         if ($id > 2) {
             return new JsonResponse(['error' => 'Undefined page'], 404);
         }
