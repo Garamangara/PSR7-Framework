@@ -12,7 +12,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Framework\\": "src/Framework/",
+      "Framework\\": "src/Framework/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Tests\\": "tests/"
     }
   },
