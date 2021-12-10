@@ -4,7 +4,6 @@ chdir(dirname(__DIR__));
 // Выполнить команду composer dump-autoload
 require 'vendor/autoload.php';
 
-use Framework\Http\ResponseSender;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
