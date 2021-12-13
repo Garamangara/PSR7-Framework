@@ -2,25 +2,86 @@
 
 namespace Framework\Http\Router;
 
-use Framework\Http\Router\Route;
-
 class RouteCollection
 {
+    /**
+     * @var array
+     */
     private $routes = [];
 
-    public function get($name, $pattern, $handler, array $tokens = []): void
+    /**
+     * @param Route $route
+     * @return void
+     */
+    public function addRoute(Route $route): void
     {
-        $this->routes[] = new Route($name, $pattern, $handler, ['GET'], $tokens = []);
+        $this->routes[] = $route;
     }
 
-    public function any($name, $pattern, $handler, array $tokens = []): void
-    {
-        $this->routes[] = new Route($name, $pattern, $handler, [], $tokens = []);
+    /**
+     * @param string $name
+     * @param string $pattern
+     * @param string $handler
+     * @param array $methods
+     * @param array $tokens
+     * @return void
+     */
+    public function add(
+        string $name,
+        string $pattern,
+        string $handler,
+        array $methods,
+        array $tokens = []
+    ): void {
+        $this->addRoute(new Route($name, $pattern, $handler, $methods, $tokens));
     }
 
-    public function post($name, $pattern, $handler, array $tokens = []): void
-    {
-        $this->routes[] = new Route($name, $pattern, $handler, ['POST'], $tokens = []);
+    /**
+     * @param string $name
+     * @param string $pattern
+     * @param string $handler
+     * @param array $tokens
+     * @return void
+     */
+    public function any(
+        string $name,
+        string $pattern,
+        string $handler,
+        array $tokens = []
+    ): void {
+        $this->addRoute(new Route($name, $pattern, $handler, [], $tokens));
+    }
+
+    /**
+     * @param string $name
+     * @param string $pattern
+     * @param string $handler
+     * @param array $tokens
+     * @return void
+     */
+    public function get(
+        string $name,
+        string $pattern,
+        string $handler,
+        array $tokens = []
+    ): void {
+        $this->addRoute(new Route($name, $pattern, $handler, ['GET'], $tokens));
+    }
+
+    /**
+     * @param string $name
+     * @param string $pattern
+     * @param string $handler
+     * @param array $tokens
+     * @return void
+     */
+    public function post(
+        string $name,
+        string $pattern,
+        string $handler,
+        array $tokens = []
+    ): void {
+        $this->addRoute(new Route($name, $pattern, $handler, ['POST'], $tokens));
     }
 
     /**

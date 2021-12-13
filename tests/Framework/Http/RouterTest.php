@@ -3,7 +3,7 @@
 namespace Tests\Framework\Http;
 
 use Framework\Http\Router\Exception\RequestNotMatchedException;
-use Framework\Http\Router\RouterCollection;
+use Framework\Http\Router\RouteCollection;
 use Framework\Http\Router\Router;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
@@ -16,7 +16,7 @@ class RouterTest extends TestCase
      */
     public function testCorrectMethod(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
         $routes->get($nameGet = 'blog', '/blog', $handlerGet = 'handler_get');
         $routes->post($namePost = 'blog_edit', '/blog', $handlerPost = 'handler_post');
@@ -34,7 +34,7 @@ class RouterTest extends TestCase
 
     public function testMissingMethod(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
         $routes->post('blog', '/blog', 'handler_post');
 
@@ -46,9 +46,9 @@ class RouterTest extends TestCase
 
     public function testCorrectAttributes(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
-        $routes->get($name = 'blog_show', '/blog{id}', 'handler', ['id' => '\d+']);
+        $routes->get($name = 'blog_show', '/blog/{id}', 'handler', ['id' => '\d+']);
 
         $router = new Router($routes);
 
@@ -60,13 +60,11 @@ class RouterTest extends TestCase
 
     public function testIncorrectAttributes(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
-        $routes->get($name = 'blog_show', '/blog{id}', 'handler', ['id' => '\d+']);
+        $routes->get($name = 'blog_show', '/blog/{id}', 'handler', ['id' => '\d+']);
 
         $router = new Router($routes);
-
-        $result = $router->match($this->buildRequest('GET', '/blog/5'));
 
         $this->expectException(RequestNotMatchedException::class);
         $router->match($this->buildRequest('GET', '/blog/slug'));
@@ -74,10 +72,10 @@ class RouterTest extends TestCase
 
     public function testGenerate(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
-        $routes->get($name = 'blog', '/blog', 'handler');
-        $routes->get($name = 'blog_show', '/blog{id}', 'handler', ['id' => '\d+']);
+        $routes->get('blog', '/blog', 'handler');
+        $routes->get('blog_show', '/blog/{id}', 'handler', ['id' => '\d+']);
 
         $router = new Router($routes);
 
@@ -87,9 +85,9 @@ class RouterTest extends TestCase
 
     public function testGenerateMissingAttributes(): void
     {
-        $routes = new RouterCollection();
+        $routes = new RouteCollection();
 
-        $routes->get($name = 'blog_show', '/blog{id}', 'handler', ['id' => '\d+']);
+        $routes->get($name = 'blog_show', '/blog/{id}', 'handler', ['id' => '\d+']);
 
         $router = new Router($routes);
 
