@@ -15,7 +15,7 @@ class Result
     private $name;
 
     /**
-     * @var string
+     * @var callable
      */
     private $handler;
 
@@ -26,12 +26,12 @@ class Result
 
     /**
      * @param string $name
-     * @param string $handler
+     * @param callable $handler
      * @param array $attributes
      */
     public function __construct(
         string $name,
-        string $handler,
+        callable $handler,
         array $attributes
     ) {
         $this->name = $name;
@@ -48,9 +48,9 @@ class Result
     }
 
     /**
-     * @return string
+     * @return callable
      */
-    public function getHandler(): string
+    public function getHandler(): callable
     {
         return $this->handler;
     }
