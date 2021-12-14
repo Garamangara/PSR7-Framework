@@ -3,6 +3,7 @@
 namespace Framework\Http\Router;
 
 use Framework\Http\Router\Exception\RequestNotMatchedException;
+use Framework\Http\Router\Exception\MethodNotAllowedException;
 use Framework\Http\Router\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 use Framework\Http\Router\Result;
@@ -22,11 +23,8 @@ class Router
      */
     public function match(ServerRequestInterface $request): Result
     {
-        foreach ($this->routes->getRoutes() as $route) {
-            if ($route->methods && !\in_array($request->getMethod(), $route->methods, true)) {
-                continue;
-            }
-
+        $routes = $this->routes->getRoutesForMethod($request->getMethod());
+        foreach ($routes as $route) {
             $pattern = $route->getRegexPatternForUrl();
 
             $path = $request->getUri()->getPath();

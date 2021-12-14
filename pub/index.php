@@ -54,7 +54,7 @@ try {
     /** @var callable $action */
     $action = $result->getHandler();
     $response = $action($request);
-} catch (RequestNotMatchedException $e){
+} catch (RequestNotMatchedException|MethodNotAllowedException $e){
     $response = new HtmlResponse($e->getMessage(), $e->getCode());
 }
 

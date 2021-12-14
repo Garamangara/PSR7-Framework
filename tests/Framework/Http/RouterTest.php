@@ -3,6 +3,7 @@
 namespace Tests\Framework\Http;
 
 use Framework\Http\Router\Exception\RequestNotMatchedException;
+use Framework\Http\Router\Exception\MethodNotAllowedException;
 use Framework\Http\Router\RouteCollection;
 use Framework\Http\Router\Router;
 use Zend\Diactoros\ServerRequest;
@@ -41,7 +42,7 @@ class RouterTest extends TestCase
 
         $router = new Router($routes);
 
-        $this->expectException(RequestNotMatchedException::class);
+        $this->expectException(MethodNotAllowedException::class);
         $router->match($this->buildRequest('DELETE', '/blog'));
     }
 
@@ -63,7 +64,7 @@ class RouterTest extends TestCase
     {
         $routes = new RouteCollection();
 
-        $routes->get($name = 'blog_show', '/blog/{id}', $this->callableForTest(), ['id' => '\d+']);
+        $routes->get('blog_show', '/blog/{id}', $this->callableForTest(), ['id' => '\d+']);
 
         $router = new Router($routes);
 

@@ -17,6 +17,11 @@ GET http://localhost:8083/blog
 Accept: application/json
 
 ###
+// Framework\Http\Router\Exception\MethodNotAllowedException
+POST http://localhost:8083/blog
+Accept: application/json
+
+###
 
 GET http://localhost:8083/blog/2
 Accept: application/json

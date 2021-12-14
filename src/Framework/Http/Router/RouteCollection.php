@@ -2,6 +2,8 @@
 
 namespace Framework\Http\Router;
 
+use Framework\Http\Router\Exception\MethodNotAllowedException;
+
 class RouteCollection
 {
     /**
@@ -82,6 +84,26 @@ class RouteCollection
         array $tokens = []
     ): void {
         $this->addRoute(new Route($name, $pattern, $handler, ['POST'], $tokens));
+    }
+
+    /**
+     * @return Route[]
+     */
+    public function getRoutesForMethod(string $method): array
+    {
+        $routesForMethod = [];
+
+        foreach ($this->routes as $route) {
+            if ($route->getMethods() && \in_array($method, $route->getMethods(), true)) {
+                $routesForMethod[] = $route;
+            }
+        }
+
+        if (empty($routesForMethod)) {
+            throw new MethodNotAllowedException($method);
+        }
+
+        return $routesForMethod;
     }
 
     /**

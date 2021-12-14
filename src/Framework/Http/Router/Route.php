@@ -79,4 +79,13 @@ class Route
             return '(?P<' . $argument . '>' . $replace . ')';
         }, $this->pattern);
     }
+
+    /**
+     * @return array
+     */
+    public function getMethods(): array
+    {
+        return $this->methods;
+    }
+
 }

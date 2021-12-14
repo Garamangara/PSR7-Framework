@@ -19,7 +19,7 @@ class RequestNotMatchedException extends \LogicException
      */
     public function __construct(ServerRequestInterface $request)
     {
-        parent::__construct('Matches not found');
+        parent::__construct('Matches not found', 404);
         $this->request = $request;
     }
 
